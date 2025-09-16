@@ -1,4 +1,5 @@
 import React from 'react';
+import visitUsLocations from './visitUsLocations';
 
 interface LocationCardProps {
   day: string;
@@ -27,54 +28,15 @@ const VisitUsSection: React.FC<VisitUsSectionProps> = ({ paddingY = 'md', onView
     lg: 'py-12',
     xl: 'py-16'
   };
-  
-  const locations: LocationCardProps[] = [
-    { 
-      day: 'Today', 
-      date: new Date(),
-      location: 'Downtown Cafe', 
-      time: '6:00 AM - 8:00 PM',
-      address: '123 Coffee St, Portland, OR 97201',
-      phone: '(555) 123-4567',
-      email: 'downtown@coffeeshop.com',
-      isMainLocation: true,
-      locationUrl: 'https://www.google.com/maps?q=123+Coffee+Street,+Portland,+OR+97201&output=embed'
-    },
-    { 
-      day: 'Tomorrow', 
-      date: new Date(Date.now() + 86400000),
-      location: 'Riverside Stand', 
-      time: '8:00 AM - 5:00 PM',
-      address: '456 River Rd, Portland, OR 97202',
-      phone: '(555) 123-4568',
-      email: 'riverside@coffeeshop.com',
-      locationUrl: 'https://www.google.com/maps?q=456+River+Road,+Portland,+OR+97202&output=embed'
-    },
-    { 
-      day: new Date(Date.now() + 2 * 86400000).toLocaleDateString('en-US', { weekday: 'long' }), 
-      date: new Date(Date.now() + 2 * 86400000),
-      location: 'Park Pop-up', 
-      time: '9:00 AM - 4:00 PM',
-      address: '789 Park Ave, Portland, OR 97203',
-      phone: '(555) 123-4569',
-      email: 'park@coffeeshop.com',
-      locationUrl: 'https://www.google.com/maps?q=789+Park+Ave,+Portland,+OR+97203&output=embed'
-    },
-    { 
-      day: 'Weekend Hours', 
-      date: null,
-      location: 'All Locations', 
-      time: '7:00 AM - 6:00 PM',
-      address: 'Saturday & Sunday',
-      isWeekendCard: true
-    }
-  ];
+
+  // Use centralized locations array
+  const locations: LocationCardProps[] = visitUsLocations;
 
   const handleViewOnMapClick = (e: React.MouseEvent, location: string, locationUrl?: string) => {
     if (onViewOnMap) {
       e.preventDefault();
+      // Pass address and locationUrl for map update
       onViewOnMap(location, locationUrl);
-      // Scroll to #map
       const mapSection = document.getElementById('map');
       if (mapSection) {
         mapSection.scrollIntoView({ behavior: 'smooth' });
@@ -157,7 +119,7 @@ const VisitUsSection: React.FC<VisitUsSectionProps> = ({ paddingY = 'md', onView
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                   <a 
                     href="#map"
-                    onClick={e => handleViewOnMapClick(e, item.location, item.locationUrl)}
+                    onClick={e => handleViewOnMapClick(e, item.address, item.locationUrl)}
                     className="inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors duration-200"
                   >
                     <svg className="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

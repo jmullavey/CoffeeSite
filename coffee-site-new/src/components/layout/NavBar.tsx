@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { Sun, Moon, Menu, X } from 'lucide-react';
+import { Coffee } from 'lucide-react';
 import CartButton from '../cart/CartButton';
 
 const NavBar: React.FC = () => {
@@ -33,13 +34,6 @@ const NavBar: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link 
-              to="/menu" 
-              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 no-underline hover:no-underline"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Menu
-            </Link>
-            <Link 
               to="/about" 
               className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 no-underline hover:no-underline"
               onClick={() => setMobileMenuOpen(false)}
@@ -59,6 +53,15 @@ const NavBar: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Events
+            </Link>
+            <Link 
+              to="/menu"
+              className="bg-primary text-white font-bold px-4 py-2 rounded-lg text-base shadow-lg border-2 border-primary hover:bg-primary/90 transition-all duration-200 no-underline hover:no-underline flex items-center gap-2 group"
+              style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.10)' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Coffee className="h-5 w-5 transition-all duration-300 group-hover:-rotate-[18deg] group-hover:scale-110" aria-hidden="true" />
+              Order
             </Link>
             
             <div className="flex items-center space-x-4 ml-4">
@@ -97,13 +100,6 @@ const NavBar: React.FC = () => {
           <div className="md:hidden">
             <div className="pt-2 pb-3 space-y-1">
               <Link
-                to="/menu"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Menu
-              </Link>
-              <Link
                 to="/about"
                 className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
                 onClick={() => setMobileMenuOpen(false)}
@@ -123,6 +119,15 @@ const NavBar: React.FC = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
+              </Link>
+              <Link
+                to="/menu"
+                className="block px-4 py-2 rounded-lg text-base font-bold bg-primary text-white border-2 border-primary shadow-lg hover:bg-primary/90 transition-all duration-200 no-underline hover:no-underline flex items-center gap-2 group"
+                style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.10)' }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Coffee className="h-5 w-5 transition-all duration-300 group-hover:-rotate-[18deg] group-hover:scale-110" aria-hidden="true" />
+                Order
               </Link>
               <button
                 onClick={toggleTheme}

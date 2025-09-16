@@ -11,6 +11,7 @@ type CartItem = {
 type CartState = {
   items: CartItem[];
   isOpen: boolean;
+  orderType: 'pickup' | 'delivery';
 };
 
 type CartAction =
@@ -18,7 +19,8 @@ type CartAction =
   | { type: 'REMOVE_ITEM'; payload: string }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'TOGGLE_CART' }
-  | { type: 'CLEAR_CART' };
+  | { type: 'CLEAR_CART' }
+  | { type: 'SET_ORDER_TYPE'; payload: 'pickup' | 'delivery' };
 
 const CartContext = createContext<{
   state: CartState;
@@ -29,6 +31,8 @@ const CartContext = createContext<{
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
+    case 'SET_ORDER_TYPE':
+      return { ...state, orderType: action.payload };
     case 'ADD_ITEM':
       const existingItem = state.items.find(item => item.id === action.payload.id);
       
@@ -79,6 +83,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     isOpen: false,
+    orderType: 'pickup',
   });
   
   const itemCount = state.items.reduce(

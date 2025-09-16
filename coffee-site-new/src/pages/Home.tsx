@@ -4,36 +4,28 @@ import Hero from '../components/Hero';
 import VisitUsSection from '../components/VisitUsSection';
 import { getTodaysSchedule, getMapEmbedUrl } from '../utils/scheduleUtils';
 
-// Example schedule data (customize as needed)
-const schedule = [
-  {
-    day: 'Today',
-    date: new Date(),
-    location: 'Downtown Cafe',
-    time: '6:00 AM - 8:00 PM',
-    address: '123 Coffee St, Portland, OR 97201',
-    phone: '(555) 123-4567',
-    email: 'downtown@coffeeshop.com',
-    isMainLocation: true,
-    locationUrl: 'https://www.google.com/maps?q=123+Coffee+Street,+Portland,+OR+97201&output=embed'
-  },
-  // ...add more schedule items as needed...
-];
+import visitUsLocations from '../components/visitUsLocations';
+const schedule = visitUsLocations;
 
 const todaySchedule = getTodaysSchedule(schedule);
-const isClosed = todaySchedule.time === 'Closed' || todaySchedule.location === 'Closed';
-const MAIN_ADDRESS = '123 Coffee Street, Portland, OR 97201';
-const mapAddress = isClosed ? MAIN_ADDRESS : todaySchedule.location;
-const defaultMapUrl = getMapEmbedUrl(mapAddress, todaySchedule.locationUrl);
+const getMapCoords = (address: string) => {
+  // Hardcoded for demo, but you could use a lookup or geocode
+  if (address.includes('123 Court St')) return { lat: 40.567, lng: -89.644 };
+  if (address.includes('456 River Rd')) return { lat: 40.568, lng: -89.650 };
+  if (address.includes('789 Park Ave')) return { lat: 40.570, lng: -89.660 };
+  // fallback Pekin
+  return { lat: 40.567, lng: -89.644 };
+};
+
+const defaultCoords = getMapCoords(todaySchedule.address);
 
 const Home: React.FC = () => {
-  const [mapSrc, setMapSrc] = useState(defaultMapUrl);
+  const [mapCoords, setMapCoords] = useState(defaultCoords);
   const mapRef = useRef<HTMLDivElement>(null);
 
   // Handler for Visit Us card 'View on map' links
-  const handleViewOnMap = (location: string, locationUrl?: string) => {
-    const src = getMapEmbedUrl(location, locationUrl);
-    setMapSrc(src);
+  const handleViewOnMap = (address: string, locationUrl?: string) => {
+    setMapCoords(getMapCoords(address));
     if (mapRef.current) {
       mapRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -51,17 +43,17 @@ const Home: React.FC = () => {
       <div id="map" ref={mapRef} className="w-full bg-gray-100 dark:bg-gray-800 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Today's Location</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Our Location</h2>
             <div className="mt-6 w-full h-72 md:h-96 rounded-lg overflow-hidden shadow-lg">
               <iframe
                 title="Coffee Shop Location"
-                src={mapSrc}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen={false}
                 loading="lazy"
                 className="bg-gray-200 dark:bg-gray-700"
+                src={`https://www.google.com/maps?q=${mapCoords.lat},${mapCoords.lng}&z=15&output=embed`}
               />
             </div>
           </div>
