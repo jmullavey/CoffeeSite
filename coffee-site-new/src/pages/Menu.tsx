@@ -209,7 +209,7 @@ const Menu: React.FC = () => {
             className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
             style={{ textDecoration: 'none' }}
           >
-            <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">Contact Us</span>
+            <span className="flex items-center">Contact Us</span>
           </Link>
         </div>
       </div>

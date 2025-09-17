@@ -167,11 +167,9 @@ const Home: React.FC = () => {
               </p>
               <Link
                 to="/about"
-                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
+                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 hover:no-underline active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
               >
-                <span className="flex items-center">
-                  <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">Learn Our Story</span>
-                </span>
+                <span className="flex items-center">Learn Our Story</span>
               </Link>
             </div>
           </div>
@@ -240,11 +238,9 @@ const Home: React.FC = () => {
           <div className="mt-12 text-center">
             <Link
               to="/menu"
-              className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
+                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 hover:no-underline active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
             >
-              <span className="flex items-center">
-                <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">View Full Menu</span>
-              </span>
+                <span className="flex items-center">View Full Menu</span>
             </Link>
           </div>
         </div>
@@ -270,11 +266,7 @@ const Home: React.FC = () => {
                 type="submit"
                 className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
               >
-                <span className="flex items-center">
-                  <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">
-                    Subscribe
-                  </span>
-                </span>
+                <span className="flex items-center">Subscribe</span>
               </button>
             </div>
             <p className="mt-3 text-sm text-gray-500 dark:text-amber-100/70">
