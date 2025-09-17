@@ -1,148 +1,311 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { FaMapMarkerAlt, FaMoneyBillWave, FaClock, FaCalendarAlt, FaPlug, FaUsers, FaConciergeBell, FaEnvelope, FaPhone, FaWifi, FaWheelchair, FaParking, FaPaw, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
+// ========================
+// FAQ Icons
+// ========================
+const iconMap = {
+  LocationIcon: FaMapMarkerAlt,
+  MoneyIcon: FaMoneyBillWave,
+  ClockIcon: FaClock,
+  EventIcon: FaCalendarAlt,
+  PowerIcon: FaPlug,
+  PeopleIcon: FaUsers,
+  ServiceIcon: FaConciergeBell,
+  CalendarIcon: FaCalendarAlt,
+};
+
+type IconKey = keyof typeof iconMap;
+
+// ========================
+// FAQ Data
+// ========================
+interface FAQ {
+  question: string;
+  answer: string;
+  icon: IconKey;
+  testimonial?: string;
+}
+
+const faqs: FAQ[] = [
+  {
+    question: "Where are you located?",
+    answer: "123 State Street, Pekin, IL 61554",
+    icon: "LocationIcon",
+  },
+  {
+    question: "What are your hours?",
+    answer: "Mon–Fri 7am–6pm, Sat 8am–2pm, Sun closed.",
+    icon: "ClockIcon",
+  },
+  {
+    question: "Do you take reservations for events?",
+    answer: "Yes! Email us or call and we’ll help you plan.",
+    icon: "CalendarIcon",
+    testimonial: "They made our meetup seamless!",
+  },
+];
+
+// ========================
+// Accordion Item Component
+// ========================
+const AccordionItem: React.FC<{ faq: FAQ; idx: number }> = ({ faq, idx }) => {
+  const [open, setOpen] = useState(false);
+  const IconComponent = iconMap[faq.icon];
+
+  return (
+    <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg">
+      <button
+        className={`w-full flex items-center justify-between p-5 focus:outline-none transition-all duration-300 ${
+          open ? "bg-primary-50 dark:bg-primary-900/20" : ""
+        }`}
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-controls={`faq-panel-${idx}`}
+        type="button"
+      >
+        <span className="flex items-center text-lg font-semibold text-gray-800 dark:text-gray-100">
+          <IconComponent className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-4 flex-shrink-0" />
+          {faq.question}
+        </span>
+        <svg
+          className={`w-5 h-5 ml-2 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${
+            open ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div
+        id={`faq-panel-${idx}`}
+        className={`px-5 pb-5 pt-2 text-gray-700 dark:text-gray-300 text-base transition-all duration-300 ease-in-out ${
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+        }`}
+      >
+        <p>{faq.answer}</p>
+        {faq.testimonial && (
+          <div className="mt-4 text-sm italic text-primary-700 dark:text-primary-400">“{faq.testimonial}”</div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ========================
+// Contact Page Component
+// ========================
 const Contact: React.FC = () => {
-	const [formData, setFormData] = useState({
-		name: '',
-		email: '',
-		subject: 'work',
-		message: '',
-	});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "work",
+    message: "",
+  });
 
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-	) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// TODO: handle form submission (e.g., send to API or email)
-		console.log('Contact form submitted:', formData);
-	};
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // TODO: replace with your API/email integration
+    console.log("Contact form submitted:", formData);
+  };
 
-	return (
-		<div className="bg-white dark:bg-gray-900 min-h-screen">
-			<section
-				className="flex items-center justify-center relative min-h-[14rem] md:min-h-[18rem] w-full mb-4"
-				style={{
-					backgroundImage:
-						'url(https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80)',
-					backgroundPosition: 'center',
-					backgroundRepeat: 'no-repeat',
-					backgroundSize: 'cover',
-				}}
-			>
-				<div className="absolute inset-0 bg-black/40" />
-				<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-					<h1 className="text-5xl md:text-6xl font-bold text-white mb-6">Contact Us</h1>
-					<p className="text-2xl md:text-3xl text-amber-100">We&apos;d love to hear from you</p>
-				</div>
-			</section>
-			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-				{/* Contact Info */}
-				<div className="flex flex-col justify-start items-start bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8 mb-6 md:mb-0">
-					<h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-						<svg className="inline-block text-primary-600 dark:text-primary-400" width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16a8 8 0 0 1 0 16zm-3.5-7.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0zm3.5-5a5 5 0 0 0-5 5c0 2.5 2.5 5 5 5s5-2.5 5-5a5 5 0 0 0-5-5z"/></svg>
-						Contact Information
-					</h2>
-					<div className="flex flex-col gap-2 pl-1">
-						<div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-							<svg className="inline-block text-primary-600 dark:text-primary-400" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
-							123 State Street, Pekin, IL 61554
-						</div>
-						<div className="flex items-center gap-2">
-							<svg className="inline-block text-primary-600 dark:text-primary-400" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M21 8V7l-3 2.29V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2.29L21 17v-1l-3-2.29V17a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2.29L21 7z"/></svg>
-							<a href="mailto:info@coffeeshop.com" className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">info@coffeeshop.com</a>
-						</div>
-						<div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-							<svg className="inline-block text-primary-600 dark:text-primary-400" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1.003 1.003 0 0 1 1.11-.21c1.12.45 2.33.68 3.48.68a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C5.92 22 2 18.08 2 13.5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.15.23 2.36.68 3.48a1.003 1.003 0 0 1-.21 1.11l-2.2 2.2z"/></svg>
-							(309) 620-1234
-						</div>
-					</div>
-					<div className="flex gap-4 mt-4 pl-1">
-						<a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-							<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5a5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0a1 1 0 0 1 2 0z"/></svg>
-						</a>
-						<a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter" className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-							<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.59-2.47.7a4.3 4.3 0 0 0 1.88-2.37a8.59 8.59 0 0 1-2.72 1.04a4.28 4.28 0 0 0-7.29 3.9A12.13 12.13 0 0 1 3.1 4.9a4.28 4.28 0 0 0 1.32 5.71a4.24 4.24 0 0 1-1.94-.54v.05a4.28 4.28 0 0 0 3.43 4.19a4.3 4.3 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.97A8.6 8.6 0 0 1 2 19.54a12.13 12.13 0 0 0 6.56 1.92c7.88 0 12.2-6.53 12.2-12.2c0-.19 0-.38-.01-.57A8.72 8.72 0 0 0 24 4.59a8.59 8.59 0 0 1-2.54.7z"/></svg>
-						</a>
-						<a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-							<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788c1.325 0 2.463.099 2.797.143v3.24l-1.92.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0"/></svg>
-						</a>
-					</div>
-				</div>
-				{/* Contact Form */}
-				<div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
-					<h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send us a Message</h2>
-					<form onSubmit={handleSubmit} className="space-y-6">
-						<div>
-							<label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
-							<input
-								id="name"
-								name="name"
-								type="text"
-								value={formData.name}
-								onChange={handleChange}
-								required
-								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white transition-colors duration-200"
-							/>
-						</div>
-						<div>
-							<label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Email</label>
-							<input
-								id="email"
-								name="email"
-								type="email"
-								value={formData.email}
-								onChange={handleChange}
-								required
-								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white transition-colors duration-200"
-							/>
-						</div>
-						<div>
-							<label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
-							<select
-								id="subject"
-								name="subject"
-								value={formData.subject}
-								onChange={handleChange}
-								required
-								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white transition-colors duration-200"
-							>
-								<option value="work">Work with Us</option>
-								<option value="events">Events</option>
-								<option value="feedback">Feedback</option>
-								<option value="other">Other</option>
-							</select>
-						</div>
-						<div>
-							<label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Message</label>
-							<textarea
-								id="message"
-								name="message"
-								rows={4}
-								value={formData.message}
-								onChange={handleChange}
-								required
-								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white transition-colors duration-200"
-							></textarea>
-						</div>
-						<div className="pt-2">
-							<button
-								type="submit"
-								className="group w-full inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
-							>
-								<span className="flex items-center">
-									<span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">
-										Send Message
-									</span>
-								</span>
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	);
+  const contactLinks = [
+    { icon: FaFacebook, href: "#", label: "Facebook" },
+    { icon: FaInstagram, href: "#", label: "Instagram" },
+    { icon: FaTwitter, href: "#", label: "Twitter" },
+  ];
+
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+      {/* Hero */}
+      <section
+        className="relative h-96 md:h-[32rem] flex items-center justify-center w-full mb-16"
+        style={{
+          backgroundImage: "url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80)",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed"
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-md">Contact Us</h1>
+          <p className="text-xl md:text-2xl text-amber-100 drop-shadow-sm">We'd love to hear from you</p>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Contact Info (Left Column) */}
+        <div className="lg:col-span-1">
+          <div className="space-y-8">
+            {/* Our Location */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Our Location</h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                123 State Street<br />Pekin, IL 61554
+              </p>
+              <div className="mt-6 h-64 w-full rounded-xl overflow-hidden shadow-inner">
+                <iframe
+                  title="Our location map"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=123%20State%20Street%2C%20Pekin%2C%20IL%2061554&output=embed"
+                />
+              </div>
+            </div>
+
+            {/* Contact Details */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Get In Touch</h2>
+              <div className="space-y-4 text-gray-600 dark:text-gray-300">
+                <div className="flex items-center gap-4">
+                  <FaPhone className="text-primary-600 dark:text-primary-400 text-xl flex-shrink-0" />
+                  <a href="tel:+13096201234" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">(309) 620-1234</a>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FaEnvelope className="text-primary-600 dark:text-primary-400 text-xl flex-shrink-0" />
+                  <a href="mailto:info@coffeeshop.com" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">info@coffeeshop.com</a>
+                </div>
+              </div>
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Our Hours</h3>
+                <ul className="text-gray-600 dark:text-gray-300 space-y-1">
+                  <li className="flex justify-between"><span>Mon–Fri</span><span>7:00a – 6:00p</span></li>
+                  <li className="flex justify-between"><span>Sat</span><span>8:00a – 2:00p</span></li>
+                  <li className="flex justify-between"><span>Sun</span><span>Closed</span></li>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Amenities</h3>
+                <ul className="grid grid-cols-2 gap-y-2 gap-x-4 text-gray-600 dark:text-gray-300">
+                  <li className="flex items-center gap-2"><FaWifi className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Free Wi-Fi</li>
+                  <li className="flex items-center gap-2"><FaWheelchair className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Wheelchair access</li>
+                  <li className="flex items-center gap-2"><FaParking className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Parking onsite</li>
+                  <li className="flex items-center gap-2"><FaPaw className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Pet friendly</li>
+                </ul>
+              </div>
+              <div className="mt-8 flex gap-4">
+                {contactLinks.map((link, index) => (
+                  <a key={index} href={link.href} aria-label={link.label} className="text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">
+                    <link.icon className="w-6 h-6" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Form & FAQ (Right Column) */}
+        <div className="lg:col-span-2">
+          <div className="space-y-12">
+            {/* Contact Form */}
+            <div className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Send us a message</h2>
+              <form className="space-y-6" onSubmit={handleSubmit} noValidate>
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    placeholder="Jane Doe"
+                    autoComplete="name"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Subject
+                  </label>
+                  <select
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                  >
+                    <option value="work">Work inquiry</option>
+                    <option value="events">Events</option>
+                    <option value="general">General</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    placeholder="How can we help?"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center rounded-lg bg-primary-600 px-6 py-3 text-white font-medium hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+
+            {/* FAQ Section */}
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-4">
+                {faqs.map((faq, idx) => (
+                  <AccordionItem key={faq.question} faq={faq} idx={idx} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="pb-16" />
+    </div>
+  );
 };
 
 export default Contact;
-

@@ -1,6 +1,7 @@
 // VisitMap.tsx
 // Renders Google Map centered on business coords with AdvancedMarkerElement
-import React, { useEffect, useRef } from "react";
+/// <reference types="google.maps" />
+import { useEffect, useRef } from "react";
 
 const DEFAULT = { lat: 40.123456, lng: -111.654321 };
 const DEFAULT_ZOOM = 14;
