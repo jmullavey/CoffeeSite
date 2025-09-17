@@ -50,10 +50,10 @@ const Hero = () => {
                       >
                         <span className="flex items-center">
                           <Coffee 
-                            className="h-5 w-5 mr-2 transition-all duration-300 group-hover:-rotate-[18deg] group-hover:scale-110" 
+                            className="h-5 w-5 mr-2 transition-transform transition-colors duration-300 group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300" 
                             aria-hidden="true"
                           />
-                            <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">Order</span>
+                          <span className="flex items-center">Order</span>
                         </span>
                       </Link>
                       <Link 
@@ -63,10 +63,10 @@ const Hero = () => {
                       >
                         <span className="flex items-center">
                           <Calendar 
-                            className="h-5 w-5 mr-2 transition-all duration-300 group-hover:-rotate-[18deg] group-hover:scale-110" 
+                            className="h-5 w-5 mr-2 transition-transform transition-colors duration-300 group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300" 
                             aria-hidden="true"
                           />
-                            <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">Events</span>
+                          <span className="flex items-center">Events</span>
                         </span>
                       </Link>
                     </div>

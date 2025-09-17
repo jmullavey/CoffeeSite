@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaRegCalendarCheck } from 'react-icons/fa';
 import { Star, Users, Heart, Briefcase, Gift } from 'lucide-react';
 
 interface EventType {
@@ -319,58 +320,9 @@ const Events: React.FC = () => {
             </p>
           )}
         </div>
-
-        {/* Testimonials and Form Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Trust Indicators & Testimonials */}
-          <div className="space-y-12">
-            <div className="bg-gray-50 dark:bg-gray-800/70 py-12 px-8 rounded-3xl shadow-xl">
-              <div className="text-center mb-10">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-                  Trusted by Event Planners & Hosts
-                </h2>
-                <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-300">
-                  Don't just take our word for it. Here's what our clients have to say.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-center">
-                {trustIndicators.map((indicator, index) => (
-                  <div key={index} className="p-2">
-                    <p className="text-4xl font-extrabold text-primary-600 dark:text-primary-400">{indicator.value}</p>
-                    <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">{indicator.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-2">
-              {testimonials.slice(0, 4).map((testimonial) => (
-                <div key={testimonial.id} className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-                  <blockquote className="flex-grow">
-                    <p className="text-gray-600 dark:text-gray-300 text-base italic leading-relaxed">
-                      "{testimonial.quote}"
-                    </p>
-                  </blockquote>
-                  <div className="mt-6 flex items-center">
-                    <div className="flex-shrink-0">
-                      <img className="h-10 w-10 rounded-full object-cover shadow-sm" src={testimonial.image} alt={testimonial.author} />
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{testimonial.author}</p>
-                      <p className="text-xs text-amber-600 dark:text-amber-400">{testimonial.role}</p>
-                    </div>
-                    <div className="ml-auto flex-shrink-0 flex items-center">
-                      {renderStars(testimonial.rating)}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Inquiry Form */}
-          <div id="inquiry" className="bg-white dark:bg-gray-800 shadow-xl rounded-3xl p-8 lg:p-12">
+        
+        {/* Request a Quote Form (now a separate section) */}
+        <div id="inquiry" className="bg-white dark:bg-gray-800 shadow-xl rounded-3xl p-8 lg:p-12">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
                 Request a Quote
@@ -418,6 +370,22 @@ const Events: React.FC = () => {
                     {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
                   </div>
                   <div>
+                    <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Event Type *</label>
+                    <select
+                      name="eventType"
+                      id="eventType"
+                      value={formData.eventType}
+                      onChange={handleInputChange}
+                      className={`mt-1 block w-full rounded-md ${formData.eventType ? 'border-primary dark:border-primary-600' : 'border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white'} shadow-sm focus:ring-primary focus:border-primary`}
+                    >
+                      <option value="" disabled>Select an event type</option>
+                      {eventTypes.map((type) => (
+                        <option key={type.id} value={type.id}>{type.name}</option>
+                      ))}
+                    </select>
+                    {errors.eventType && <p className="mt-1 text-sm text-red-600">{errors.eventType}</p>}
+                  </div>
+                  <div>
                     <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Event Date *</label>
                     <input type="date" name="eventDate" id="eventDate" value={formData.eventDate} onChange={handleInputChange} min={new Date().toISOString().split('T')[0]} className={`mt-1 block w-full rounded-md ${errors.eventDate ? 'border-red-300 text-red-900' : 'border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white'} shadow-sm focus:ring-primary focus:border-primary`} />
                     {errors.eventDate && <p className="mt-1 text-sm text-red-600">{errors.eventDate}</p>}
@@ -440,14 +408,61 @@ const Events: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white ${isSubmitting ? 'bg-primary/70' : 'bg-primary hover:bg-primary/90'} focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-300`}
+                  className={`group w-full inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white ${isSubmitting ? 'bg-primary/70' : 'bg-primary hover:bg-primary/90'} focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-300`}
                 >
+                  <FaRegCalendarCheck className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110 group-hover:text-amber-300" />
                   {isSubmitting ? 'Sending...' : 'Send Inquiry'}
                 </button>
               </form>
             )}
-          </div>
         </div>
+        
+        {/* Testimonials Section (now a separate section) */}
+        <div className="space-y-12">
+            <div className="bg-gray-50 dark:bg-gray-800/70 py-12 px-8 rounded-3xl shadow-xl">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                  Trusted by Event Planners & Hosts
+                </h2>
+                <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-300">
+                  Don't just take our word for it. Here's what our clients have to say.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-center">
+                {trustIndicators.map((indicator, index) => (
+                  <div key={index} className="p-2">
+                    <p className="text-4xl font-extrabold text-primary-600 dark:text-primary-400">{indicator.value}</p>
+                    <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">{indicator.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              {testimonials.slice(0, 4).map((testimonial) => (
+                <div key={testimonial.id} className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                  <blockquote className="flex-grow">
+                    <p className="text-gray-600 dark:text-gray-300 text-base italic leading-relaxed">
+                      "{testimonial.quote}"
+                    </p>
+                  </blockquote>
+                  <div className="mt-6 flex items-center">
+                    <div className="flex-shrink-0">
+                      <img className="h-10 w-10 rounded-full object-cover shadow-sm" src={testimonial.image} alt={testimonial.author} />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{testimonial.author}</p>
+                      <p className="text-xs text-amber-600 dark:text-amber-400">{testimonial.role}</p>
+                    </div>
+                    <div className="ml-auto flex-shrink-0 flex items-center">
+                      {renderStars(testimonial.rating)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
       </div>
       <div className="pb-24" />
     </div>

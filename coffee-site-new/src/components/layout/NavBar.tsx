@@ -56,12 +56,12 @@ const NavBar: React.FC = () => {
             </Link>
             <Link 
               to="/menu"
-              className="bg-primary text-white font-bold px-4 py-2 rounded-lg text-base shadow-lg border-2 border-primary hover:bg-primary/90 transition-all duration-200 no-underline hover:no-underline flex items-center gap-2 group"
+              className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 hover:no-underline active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 gap-2"
               style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.10)' }}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Coffee className="h-5 w-5 transition-all duration-300 group-hover:-rotate-[18deg] group-hover:scale-110" aria-hidden="true" />
-              Order
+              <Coffee className="h-5 w-5 transition-transform transition-colors duration-300 group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300" aria-hidden="true" />
+              <span className="flex items-center">Order</span>
             </Link>
             
             <div className="flex items-center space-x-4 ml-4">

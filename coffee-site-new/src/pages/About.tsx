@@ -35,18 +35,13 @@ const About: React.FC = () => {
             </h2>
             <div className="prose dark:prose-invert text-gray-600 dark:text-gray-300">
               <p className="mb-4">
-                What started as a small coffee cart in downtown Portland has grown into a beloved local institution.
-                Our founder, Sarah Johnson, began her journey with a simple mission: to serve exceptional coffee
-                in a warm, welcoming environment.
+                We’re Jason and Heather Mullavey, founders of our soon-to-launch coffee business. Coffee became a passion for me later in life, starting as a simple comfort that warmed my hands on cold mornings. As I experimented with a small espresso machine and explored what makes a great cup, we realized we wanted to share that experience with others.
               </p>
               <p className="mb-4">
-                Over the years, we've stayed true to our roots while constantly innovating. We source our beans
-                directly from sustainable farms around the world, ensuring fair prices for farmers and exceptional
-                quality for our customers.
+                Together, we’re preparing to launch from a refurbished canned ham trailer, focusing on small-batch roasting and sourcing beans globally. Quality for us means understanding coffee beyond trends and delivering drinks crafted with care and experience.
               </p>
               <p>
-                Today, our team of passionate baristas continues Sarah's legacy, crafting each cup with care and
-                precision. We're proud to be part of the Portland community and look forward to serving you.
+                Though we haven’t opened yet, our goal is to offer affordable, exceptional coffee with a commitment to sustainability, fair trade, and community impact. Soon, we plan to begin delivery operations, connecting with people one cup at a time.
               </p>
             </div>
           </div>
@@ -95,7 +90,7 @@ const About: React.FC = () => {
             {[
               {
                 title: 'Quality',
-                description: 'From bean to cup, we maintain the highest standards to ensure every drink is perfect.',
+                description: 'Through small-batch roasting, we prioritize quality over quantity to bring out the best in every cup.',
                 icon: '✨'
               },
               {

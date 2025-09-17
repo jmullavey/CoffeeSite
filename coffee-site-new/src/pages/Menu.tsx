@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { Mail } from 'lucide-react';
 import AddToCartButton from '../components/cart/AddToCartButton';
 import muffinImg from '../assets/images/muffin.jpg';
 
@@ -209,6 +210,7 @@ const Menu: React.FC = () => {
             className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
             style={{ textDecoration: 'none' }}
           >
+            <Mail className="mr-2 h-5 w-5 transition-transform transition-colors duration-300 group-hover:scale-110 group-hover:text-amber-300" aria-hidden="true" />
             <span className="flex items-center">Contact Us</span>
           </Link>
         </div>

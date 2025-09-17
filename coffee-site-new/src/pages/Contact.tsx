@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Mail } from 'lucide-react';
 import { FaMapMarkerAlt, FaMoneyBillWave, FaClock, FaCalendarAlt, FaPlug, FaUsers, FaConciergeBell, FaEnvelope, FaPhone, FaWifi, FaWheelchair, FaParking, FaPaw, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 // ========================
@@ -284,6 +285,7 @@ const Contact: React.FC = () => {
                   type="submit"
                   className="group w-full inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 hover:no-underline active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
                 >
+                  <Mail className="mr-2 h-5 w-5 transition-transform transition-colors duration-300 group-hover:scale-110 group-hover:text-amber-300" aria-hidden="true" />
                   <span className="flex items-center">Send Message</span>
                 </button>
               </form>
