@@ -1,74 +1,89 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import VisitUsSection from '../components/VisitUsSection';
-import { getTodaysSchedule, getMapEmbedUrl } from '../utils/scheduleUtils';
+import { getTodaysSchedule } from '../utils/scheduleUtils';
+import { MapPin, BookOpen, Utensils, Mail } from 'lucide-react';
 
-// Example schedule data (customize as needed)
-const schedule = [
-  {
-    day: 'Today',
-    date: new Date(),
-    location: 'Downtown Cafe',
-    time: '6:00 AM - 8:00 PM',
-    address: '123 Coffee St, Portland, OR 97201',
-    phone: '(555) 123-4567',
-    email: 'downtown@coffeeshop.com',
-    isMainLocation: true,
-    locationUrl: 'https://www.google.com/maps?q=123+Coffee+Street,+Portland,+OR+97201&output=embed'
-  },
-  // ...add more schedule items as needed...
-];
+// Assuming visitUsLocations is a static import or fetched once
+// If it's dynamic, consider using useEffect to fetch it
+import visitUsLocations from '../components/visitUsLocations';
 
-const todaySchedule = getTodaysSchedule(schedule);
-const isClosed = todaySchedule.time === 'Closed' || todaySchedule.location === 'Closed';
-const MAIN_ADDRESS = '123 Coffee Street, Portland, OR 97201';
-const mapAddress = isClosed ? MAIN_ADDRESS : todaySchedule.location;
-const defaultMapUrl = getMapEmbedUrl(mapAddress, todaySchedule.locationUrl);
+// --- Constants and Utilities ---
+
+const scheduleData = visitUsLocations;
+const todaySchedule = getTodaysSchedule(scheduleData);
+
+// In a real app, consider a geocoding service or a more structured data source
+const getMapCoords = (address: string): { lat: number; lng: number } => {
+  if (address.includes('123 Court St')) return { lat: 40.567, lng: -89.644 };
+  if (address.includes('456 River Rd')) return { lat: 40.568, lng: -89.650 };
+  if (address.includes('789 Park Ave')) return { lat: 40.570, lng: -89.660 };
+  // Fallback to Pekin coordinates
+  return { lat: 40.567, lng: -89.644 };
+};
+
+// --- Home Page Component ---
 
 const Home: React.FC = () => {
-  const [mapSrc, setMapSrc] = useState(defaultMapUrl);
+  const [mapCoords, setMapCoords] = useState(getMapCoords(todaySchedule.address));
   const mapRef = useRef<HTMLDivElement>(null);
 
+  // Use a useEffect hook to update mapCoords when todaySchedule changes
+  useEffect(() => {
+    setMapCoords(getMapCoords(todaySchedule.address));
+  }, [todaySchedule.address]);
+
   // Handler for Visit Us card 'View on map' links
-  const handleViewOnMap = (location: string, locationUrl?: string) => {
-    const src = getMapEmbedUrl(location, locationUrl);
-    setMapSrc(src);
-    if (mapRef.current) {
-      mapRef.current.scrollIntoView({ behavior: 'smooth' });
+  const [mapUrl, setMapUrl] = useState<string>(`https://maps.google.com/maps?q=${mapCoords.lat},${mapCoords.lng}&z=15&output=embed`);
+
+  const handleViewOnMap = (address: string, locationUrl?: string) => {
+    if (locationUrl) {
+      setMapUrl(locationUrl);
+    } else {
+      const newCoords = getMapCoords(address);
+      setMapCoords(newCoords);
+      setMapUrl(`https://maps.google.com/maps?q=${newCoords.lat},${newCoords.lng}&z=15&output=embed`);
     }
+    mapRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // --- Rendered JSX ---
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Parallax */}
+      {/* Hero Section */}
       <Hero />
 
       {/* Visit Us Section */}
-      <VisitUsSection paddingY="md" onViewOnMap={handleViewOnMap} />
+  <VisitUsSection paddingY="md" onViewOnMap={handleViewOnMap} />
 
-      {/* Map Section (full-width) */}
-      <div id="map" ref={mapRef} className="w-full bg-gray-100 dark:bg-gray-800 py-12">
+      {/* Map Section */}
+      <section id="map" ref={mapRef} className="w-full bg-gray-100 dark:bg-gray-800 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Today's Location</h2>
-            <div className="mt-6 w-full h-72 md:h-96 rounded-lg overflow-hidden shadow-lg">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Location</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+              Visit us at our convenient locations. Click 'View on map' to see specific branches.
+            </p>
+            <div className="w-full h-72 md:h-96 rounded-lg overflow-hidden shadow-lg mx-auto">
               <iframe
                 title="Coffee Shop Location"
-                src={mapSrc}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen={false}
                 loading="lazy"
                 className="bg-gray-200 dark:bg-gray-700"
+                // Corrected Google Maps embed URL
+                src={mapUrl}
               />
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Featured Section */}
+      {/* Our Specialties Section */}
       <section className="pt-12 pb-16 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -77,7 +92,7 @@ const Home: React.FC = () => {
               Handcrafted with care, each cup tells a story of quality and passion.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -85,31 +100,31 @@ const Home: React.FC = () => {
                 description: 'Experience the unique flavors from the world\'s best coffee-growing regions.',
                 image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
                 link: '/menu#single-origin',
-                rating: '4.9/5 (120+ reviews)'
+                rating: '4.9/5 (120+ reviews)',
               },
               {
                 title: 'Artisanal Blends',
                 description: 'Expertly crafted blends for a perfectly balanced cup every time.',
                 image: 'https://plus.unsplash.com/premium_photo-1661963739431-51ebfe9bb226?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 link: '/menu#blends',
-                rating: '4.8/5 (95+ reviews)'
+                rating: '4.8/5 (95+ reviews)',
               },
               {
                 title: 'Brewing Equipment',
                 description: 'Everything you need to brew the perfect cup at home.',
                 image: 'https://media.istockphoto.com/id/1147803687/photo/coffee-equipments-with-various-sizes-of-drip-coffee-cups-drip-paper-and-espresso-machine-on.jpg?s=1024x1024&w=is&k=20&c=cgZn2k_IFPBpx-tED1GYOGAl0cAQqvVzG5MaRSKx8eU=',
                 link: '/shop',
-                rating: '4.7/5 (85+ reviews)'
-              }
+                rating: '4.7/5 (85+ reviews)',
+              },
             ].map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
                 <div className="h-48 overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.title}
+                  <img
+                    src={item.image}
+                    alt={item.title} // Added descriptive alt text
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
@@ -121,15 +136,7 @@ const Home: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">{item.description}</p>
-                  <a 
-                    href={item.link}
-                    className="text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 font-medium inline-flex items-center transition-colors duration-200"
-                  >
-                    Learn more
-                    <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </a>
+                  {/* Removed Order button from specialties cards */}
                 </div>
               </div>
             ))}
@@ -142,9 +149,9 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
             <div className="mb-10 lg:mb-0">
-              <img 
-                src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                alt="Our Coffee Shop"
+              <img
+                src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="Our Coffee Shop Interior" // Added descriptive alt text
                 className="rounded-lg shadow-xl w-full h-auto"
               />
             </div>
@@ -156,13 +163,14 @@ const Home: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 mb-8">
                 We partner directly with farmers who share our commitment to sustainable practices, ensuring every cup supports both quality and ethical production.
               </p>
-              <Link 
+              <Link
                 to="/about"
-                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
+                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
                 style={{ textDecoration: 'none' }}
               >
-                <span className="flex items-center no-underline" style={{ textDecoration: 'none' }}>
-                  <span className="relative no-underline group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out" style={{ textDecoration: 'none' }}>Learn Our Story</span>
+                <span className="flex items-center">
+                  <BookOpen className="mr-2 w-5 h-5 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white" style={{ willChange: 'transform' }} aria-hidden="true" />
+                  <span className="no-underline" style={{ textDecoration: 'none' }}>Learn Our Story</span>
                 </span>
               </Link>
             </div>
@@ -179,42 +187,42 @@ const Home: React.FC = () => {
               Discover our most loved drinks and treats
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 name: 'Caramel Macchiato',
                 description: 'Rich espresso with vanilla-flavored syrup, steamed milk and caramel drizzle',
                 price: '$4.99',
-                image: 'https://cdn.salla.sa/DPYKd/upVsEXInacOAdTKA7zNgp8XKUZ1HvxWZR4zBb4IA.png'
+                image: 'https://cdn.salla.sa/DPYKd/upVsEXInacOAdTKA7zNgp8XKUZ1HvxWZR4zBb4IA.png',
               },
               {
                 name: 'Cold Brew',
                 description: 'Smooth, cold-brewed coffee served over ice',
                 price: '$3.99',
-                image: 'https://wholefoodsoulfoodkitchen.com/wp-content/uploads/2022/10/cold-brew-concentrate.jpg'
+                image: 'https://wholefoodsoulfoodkitchen.com/wp-content/uploads/2022/10/cold-brew-concentrate.jpg',
               },
               {
                 name: 'Avocado Toast',
                 description: 'Sourdough bread with smashed avocado, cherry tomatoes, and feta',
                 price: '$8.99',
-                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
               },
               {
                 name: 'Chocolate Croissant',
                 description: 'Buttery, flaky croissant with rich chocolate filling',
                 price: '$3.49',
-                image: 'https://images.unsplash.com/photo-1612201142855-7873bc1661b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
-              }
+                image: 'https://images.unsplash.com/photo-1612201142855-7873bc1461b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+              },
             ].map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className="group bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
               >
                 <div className="h-40 overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.name}
+                  <img
+                    src={item.image}
+                    alt={item.name} // Added descriptive alt text
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
@@ -228,15 +236,16 @@ const Home: React.FC = () => {
               </div>
             ))}
           </div>
-          
+
           <div className="mt-12 text-center">
-            <Link 
+            <Link
               to="/menu"
-              className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
+              className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
               style={{ textDecoration: 'none' }}
             >
               <span className="flex items-center">
-                <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">View Full Menu</span>
+                <Utensils className="mr-2 w-5 h-5 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white" style={{ willChange: 'transform' }} aria-hidden="true" />
+                <span className="no-underline" style={{ textDecoration: 'none' }}>View Full Menu</span>
               </span>
             </Link>
           </div>
@@ -250,7 +259,7 @@ const Home: React.FC = () => {
           <p className="text-lg text-gray-600 dark:text-amber-100 mb-8">
             Subscribe to our newsletter for the latest updates, special offers, and events
           </p>
-          
+
           <form className="max-w-md mx-auto">
             <div className="flex flex-col sm:flex-row gap-3">
               <input
@@ -261,12 +270,11 @@ const Home: React.FC = () => {
               />
               <button
                 type="submit"
-                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
+                className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
               >
                 <span className="flex items-center">
-                  <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">
-                    Subscribe
-                  </span>
+                  <Mail className="mr-2 w-5 h-5 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white" style={{ willChange: 'transform' }} aria-hidden="true" />
+                  <span className="">Subscribe</span>
                 </span>
               </button>
             </div>
@@ -277,6 +285,16 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Floating Action Button for Directions */}
+      <a
+        href={`https://maps.google.com/maps?q=${mapCoords.lat},${mapCoords.lng}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 lg:bottom-12 lg:right-12 z-50 p-4 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300"
+        aria-label="Get Directions"
+      >
+        <MapPin className="h-6 w-6" />
+      </a>
     </div>
   );
 };

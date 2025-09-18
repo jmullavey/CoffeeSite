@@ -6,9 +6,9 @@ const About: React.FC = () => {
     <div className="bg-white dark:bg-gray-900">
       {/* Hero Section */}
       <section
-        className="relative h-96 md:h-[32rem] flex items-center justify-center bg-amber-50 dark:bg-amber-900/30 mb-8 overflow-hidden"
+        className="relative h-96 md:h-[32rem] flex items-center justify-center bg-amber-50 dark:bg-amber-900/30 mb-16 overflow-hidden"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80)',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -16,48 +16,61 @@ const About: React.FC = () => {
         }}
       >
         <div className="absolute inset-0 bg-black/10 dark:bg-black/30" />
-        <div className="relative z-10 text-center w-full">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
-            About Us
+        <div className="relative z-10 text-center w-full max-w-2xl px-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-md">
+            Our Story, Your Coffee
           </h1>
-          <p className="text-xl md:text-2xl text-amber-100 mb-8">
-            Our journey from a humble coffee cart to your favorite neighborhood spot.
+          <p className="text-xl md:text-2xl text-amber-100 drop-shadow-sm">
+            We're more than just a coffee shop; we're a community built on quality, passion, and a love for the perfect cup.
           </p>
         </div>
       </section>
 
-      {/* Our Story */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Our Story with Image Gallery */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
           <div className="mb-12 lg:mb-0">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-              From Humble Beginnings
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+              From a Passion Project to a Community Hub
             </h2>
             <div className="prose dark:prose-invert text-gray-600 dark:text-gray-300">
               <p className="mb-4">
-                What started as a small coffee cart in downtown Portland has grown into a beloved local institution. 
-                Our founder, Sarah Johnson, began her journey with a simple mission: to serve exceptional coffee 
+                What started as a small coffee cart in downtown Portland has grown into a beloved local institution.
+                Our founder, Sarah Johnson, began her journey with a simple mission: to serve exceptional coffee
                 in a warm, welcoming environment.
               </p>
               <p className="mb-4">
-                Over the years, we've stayed true to our roots while constantly innovating. We source our beans 
-                directly from sustainable farms around the world, ensuring fair prices for farmers and exceptional 
+                Over the years, we've stayed true to our roots while constantly innovating. We source our beans
+                directly from sustainable farms around the world, ensuring fair prices for farmers and exceptional
                 quality for our customers.
               </p>
               <p>
-                Today, our team of passionate baristas continues Sarah's legacy, crafting each cup with care and 
+                Today, our team of passionate baristas continues Sarah's legacy, crafting each cup with care and
                 precision. We're proud to be part of the Portland community and look forward to serving you.
               </p>
             </div>
           </div>
-          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden shadow-xl">
-            <img
-              src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80"
-              alt="Mobile Coffee Trailer Example"
-              className="w-full h-full object-cover rounded-xl"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-black/50 py-2 text-center">
-              <span className="text-white text-lg">Our first coffee cart, 2010</span>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-64 rounded-xl overflow-hidden shadow-xl">
+              <img
+                src="https://images.unsplash.com/reserve/DHHQbqc0RrWVf0uDNe5E_The%20Litte%20Cafe.jpg?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Mobile Coffee Cart"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div className="h-64 rounded-xl overflow-hidden shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1607681034512-1c9c5fbda608?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Coffee Roasting Process"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div className="h-64 rounded-xl overflow-hidden shadow-xl col-span-2">
+              <img
+                src="https://plus.unsplash.com/premium_photo-1663932464937-e677ddfc1d55?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Coffee Shop Interior"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+              />
             </div>
           </div>
         </div>
@@ -68,24 +81,24 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Our Values
+              Our Core Values
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300">
-              What makes us different
+              The principles that guide everything we do
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Sustainability',
-                description: 'We partner with eco-conscious suppliers and use compostable packaging to minimize our environmental impact.',
-                icon: '🌱'
-              },
-              {
                 title: 'Quality',
                 description: 'From bean to cup, we maintain the highest standards to ensure every drink is perfect.',
                 icon: '✨'
+              },
+              {
+                title: 'Sustainability',
+                description: 'We partner with eco-conscious suppliers and use compostable packaging to minimize our environmental impact.',
+                icon: '🌱'
               },
               {
                 title: 'Community',
@@ -93,26 +106,19 @@ const About: React.FC = () => {
                 icon: '🤝'
               }
             ].map((value, index) => (
-              <div 
+              <div
                 key={index}
-                className="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
+                className="group bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
-                <div className="text-4xl mb-4">{value.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="flex items-center justify-center w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-full mb-4 mx-auto transition-transform duration-300 group-hover:scale-110">
+                  <span className="text-4xl">{value.icon}</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center mb-2">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-center text-gray-600 dark:text-gray-300">
                   {value.description}
                 </p>
-                <Link
-                  to="/contact"
-                  className="group inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 mt-4"
-                  style={{ textDecoration: 'none' }}
-                >
-                  <span className="flex items-center">
-                    <span className="relative group-hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:transition-transform after:duration-300 after:origin-bottom-right after:ease-out">Get in Touch</span>
-                  </span>
-                </Link>
               </div>
             ))}
           </div>
@@ -153,12 +159,14 @@ const About: React.FC = () => {
               img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&w=256&h=256&facepad=2&q=80'
             }
           ].map((member, index) => (
-            <div key={index} className="text-center">
-              <img
-                src={member.img}
-                alt={member.name}
-                className="w-32 h-32 mx-auto mb-4 rounded-full object-cover shadow-md"
-              />
+            <div key={index} className="group text-center">
+              <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {member.name}
               </h3>
