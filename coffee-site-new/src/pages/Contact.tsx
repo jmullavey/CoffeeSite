@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaMoneyBillWave, FaClock, FaCalendarAlt, FaPlug, FaUsers, FaConciergeBell, FaEnvelope, FaPhone, FaWifi, FaWheelchair, FaParking, FaPaw, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { Send } from 'lucide-react';
 
@@ -102,6 +102,10 @@ const AccordionItem: React.FC<{ faq: FAQ; idx: number }> = ({ faq, idx }) => {
 // Contact Page Component
 // ========================
 const Contact: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -164,11 +168,11 @@ const Contact: React.FC = () => {
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <div className="flex items-center gap-4">
                   <FaPhone className="text-primary-600 dark:text-primary-400 text-xl flex-shrink-0" />
-                  <a href="tel:+13096201234" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">(309) 620-1234</a>
+                  <a href="tel:+15558675309" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">(555) 867-5309</a>
                 </div>
                 <div className="flex items-center gap-4">
                   <FaEnvelope className="text-primary-600 dark:text-primary-400 text-xl flex-shrink-0" />
-                  <a href="mailto:info@coffeeshop.com" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">info@coffeeshop.com</a>
+                  <a href="mailto:info@coffeeshop.com" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">info@unchartedgrounds.com</a>
                 </div>
               </div>
               <div className="mt-8">

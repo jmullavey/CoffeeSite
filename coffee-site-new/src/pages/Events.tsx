@@ -191,7 +191,7 @@ const Events: React.FC = () => {
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
       <section className="relative h-96 md:h-[32rem] flex items-center justify-center w-full overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80)`, backgroundAttachment: 'fixed' }} />
+  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1400&q=80)`, backgroundAttachment: 'fixed' }} />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center text-white max-w-2xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">

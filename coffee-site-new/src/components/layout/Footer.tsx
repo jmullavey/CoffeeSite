@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* Brand and Tagline */}
         <div className="text-center mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Coffee Haven</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Uncharted Grounds Coffee</h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
             Crafting the perfect cup, one bean at a time.
           </p>
@@ -54,8 +54,8 @@ const Footer: React.FC = () => {
               <div className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p>123 Coffee Street</p>
-                  <p>Portland, OR 97201</p>
+                  <p>123 Court Street</p>
+                  <p>Pekin, IL 61554</p>
                 </div>
               </div>
             </address>
@@ -70,13 +70,13 @@ const Footer: React.FC = () => {
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-primary mr-3" />
                 <a href="mailto:info@coffeehaven.com" className="text-primary hover:text-primary/90 transition-colors duration-200">
-                  info@coffeehaven.com
+                  info@unchartedgrounds.com
                 </a>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-primary mr-3" />
-                <a href="tel:+15551234567" className="text-primary hover:text-primary/90 transition-colors duration-200">
-                  (555) 123-4567
+                <a href="tel:+15558675309" className="text-primary hover:text-primary/90 transition-colors duration-200">
+                  (555) 867-5309
                 </a>
               </li>
             </ul>
