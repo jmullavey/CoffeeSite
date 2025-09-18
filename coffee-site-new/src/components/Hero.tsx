@@ -1,11 +1,9 @@
-import { Link } from 'react-router-dom';
 import { ParallaxBanner } from 'react-scroll-parallax';
-import { Coffee, Calendar } from 'lucide-react';
 import mobileImage from '../assets/images/mobile.png';
 
 const Hero = () => {
   return (
-    <div className="relative h-[55vh] min-h-[350px]">
+    <div className="relative h-[50vh] min-h-[300px]">
       <ParallaxBanner
         layers={[
           {
@@ -42,36 +40,6 @@ const Hero = () => {
                     <p className="text-xl text-amber-100 mb-8">
                       Discover our selection of premium coffee beans and handcrafted beverages.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 items-center">
-                      <Link 
-                        to="/menu" 
-                        className="group inline-flex w-auto items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <span className="flex items-center">
-                          <Coffee 
-                            className="h-5 w-5 mr-2 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white" 
-                            style={{ willChange: 'transform' }}
-                            aria-hidden="true"
-                          />
-                          <span className="relative">Order</span>
-                        </span>
-                      </Link>
-                      <Link 
-                        to="/events" 
-                        className="group inline-flex w-auto items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300 no-underline"
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <span className="flex items-center">
-                          <Calendar 
-                            className="h-5 w-5 mr-2 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white" 
-                            style={{ willChange: 'transform' }}
-                            aria-hidden="true"
-                          />
-                          <span className="relative">Events</span>
-                        </span>
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>

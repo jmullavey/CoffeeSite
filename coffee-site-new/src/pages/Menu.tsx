@@ -101,10 +101,42 @@ const menuItems = [
 
 const Menu: React.FC = () => {
   const [orderType, setOrderType] = useState<'delivery' | 'pickup'>('delivery');
+  const [activeCategory, setActiveCategory] = useState<string>(menuItems[0].category);
+  const sectionRefs = React.useRef<{ [key: string]: HTMLElement | null }>({});
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveCategory(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-50% 0px -50% 0px', threshold: 0 } // Triggers when the section is in the middle of the viewport
+    );
+
+    Object.values(sectionRefs.current).forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      Object.values(sectionRefs.current).forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
   }, []);
+
+  const handleNavClick = (category: string) => {
+    setActiveCategory(category);
+    const ref = sectionRefs.current[category];
+    if (ref) {
+      const top = ref.getBoundingClientRect().top + window.pageYOffset - 120; // Adjusted for sticky nav height
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="py-12 bg-white dark:bg-gray-900">
@@ -150,35 +182,68 @@ const Menu: React.FC = () => {
           </div>
         </div>
 
+        {/* Sticky Category Nav for Mobile */}
+        <div className="sticky top-16 z-20 md:hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 -mx-4 px-4 mb-8 border-b border-gray-200 dark:border-gray-700">
+          <nav className="flex space-x-4 overflow-x-auto whitespace-nowrap">
+            {menuItems.map((section) => (
+              <button
+                key={section.category}
+                onClick={() => handleNavClick(section.category)}
+                className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors duration-300 ${
+                  activeCategory === section.category
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'
+                }`}
+              >
+                {section.category}
+              </button>
+            ))}
+          </nav>
+        </div>
+
         {/* Menu Items Grid */}
         <div className="space-y-16">
           {menuItems.map((section, sectionIndex) => (
-            <div key={sectionIndex} id={section.category.toLowerCase().replace(/\s/g, '-')} className="space-y-6">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-4">
+            <div 
+              key={sectionIndex} 
+              id={section.category}
+              ref={(el) => {
+                if (el) sectionRefs.current[section.category] = el;
+              }}
+              className="space-y-6 scroll-mt-24"
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 sm:pb-4">
                 {section.category}
               </h2>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
                 {section.items.map((item) => (
-                  <div key={item.id} className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-                    <div className="h-48 overflow-hidden">
+                  // Mobile: List View | Desktop: Card View
+                  <div key={item.id} className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex md:flex-col h-full">
+                    {/* Image Container */}
+                    <div className="w-28 h-28 md:w-full md:h-64 flex-shrink-0 overflow-hidden">
                       <img
                         src={item.image}
                         alt={item.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
                       />
                     </div>
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{item.name}</h3>
-                        <p className="text-xl font-bold text-amber-600 dark:text-amber-400">
-                          ${item.price.toFixed(2)}
-                        </p>
+                    
+                    {/* Details Container */}
+                    <div className="p-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="flex justify-between items-start mb-1">
+                          <h3 className="text-base md:text-xl font-semibold text-gray-900 dark:text-white line-clamp-1">{item.name}</h3>
+                          <p className="text-base md:text-xl font-bold text-amber-600 dark:text-amber-400 whitespace-nowrap ml-2">
+                            ${item.price.toFixed(2)}
+                          </p>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 flex-1 line-clamp-2 md:line-clamp-3">{item.description}</p>
                       </div>
-                      <p className="mt-1 text-gray-600 dark:text-gray-300 flex-1">{item.description}</p>
-                      <div className="mt-6">
+                      <div className="mt-3">
                         <AddToCartButton
                           item={item}
-                          className="w-full py-3 text-base font-semibold rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
+                          className="w-full py-1.5 md:py-2 text-xs md:text-sm font-semibold rounded-lg text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-300"
                         >
                           Add to Cart
                         </AddToCartButton>

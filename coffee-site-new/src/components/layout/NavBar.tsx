@@ -10,11 +10,8 @@ const NavBar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    if (mobileMenuOpen) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = 'auto';
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -29,42 +26,44 @@ const NavBar: React.FC = () => {
               Uncharted Grounds Coffee
             </Link>
           </div>
-          
+
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/about" 
-              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 no-underline hover:no-underline"
+          <div className="hidden md:flex items-center space-x-9">
+            <Link
+              to="/about"
+              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-2.5 py-2 rounded-lg text-base font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:outline-none no-underline hover:no-underline"
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
-            <Link 
-              to="/contact" 
-              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 no-underline hover:no-underline"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <Link 
-              to="/events" 
-              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 no-underline hover:no-underline"
+
+            <Link
+              to="/events"
+              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-2.5 py-2 rounded-lg text-base font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:outline-none no-underline hover:no-underline"
               onClick={() => setMobileMenuOpen(false)}
             >
               Events
             </Link>
-            
-            {/* Order button placed after Events and before theme toggle */}
+
+            <Link
+              to="/contact"
+              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-2.5 py-2 rounded-lg text-base font-medium transition-colors hover:bg-primary/10 dark:hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:outline-none no-underline hover:no-underline"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact
+            </Link>
+
+            {/* Order button placed after Contact and before theme toggle */}
             <Link
               to="/menu"
               onClick={() => setMobileMenuOpen(false)}
               className="group inline-flex items-center justify-center px-5 py-3 rounded-xl text-base font-semibold text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-200 no-underline hover:no-underline shadow-md"
             >
-                  <ShoppingCart
-                    className="h-6 w-6 mr-2 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white"
-                    style={{ willChange: 'transform' }}
-                    aria-hidden="true"
-                  />
+              <ShoppingCart
+                className="h-6 w-6 mr-2 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white"
+                style={{ willChange: 'transform' }}
+                aria-hidden="true"
+              />
               <span className="ml-2">Order</span>
             </Link>
 
@@ -76,64 +75,72 @@ const NavBar: React.FC = () => {
               >
                 {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </button>
-              
+
               <div className="h-6 w-px bg-gray-200 dark:bg-gray-700" />
-              
+
               <CartButton />
             </div>
           </div>
 
-          <div className="flex items-center md:hidden">
+          {/* Mobile controls */}
+          <div className="flex items-center space-x-4 md:hidden">
+            <CartButton />
             <button
               type="button"
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+              className="p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {mobileMenuOpen ? (
-                <X className="h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="h-6 w-6" aria-hidden="true" />
-              )}
+              {mobileMenuOpen ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="pt-2 pb-3 space-y-1">
-              <Link
-                to="/menu"
-                className="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Order
-              </Link>
+          <div className="md:hidden fixed inset-x-0 top-16 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-200 dark:border-gray-800 max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <div className="pt-2 pb-3 space-y-1 px-4">
               <Link
                 to="/about"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
+                className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
               </Link>
+
               <Link
                 to="/events"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
+                className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Events
               </Link>
+
               <Link
                 to="/contact"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
+                className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
               </Link>
+
+              {/* Order placed after Contact and before theme toggle */}
+              <Link
+                to="/menu"
+                onClick={() => setMobileMenuOpen(false)}
+                className="group inline-flex items-center w-full px-5 py-3 rounded-xl text-base font-semibold text-white bg-primary hover:bg-primary/90 active:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-200 no-underline shadow-md"
+              >
+                <ShoppingCart
+                  className="h-6 w-6 mr-2 transition-transform duration-300 ease-in-out will-change-transform transition-colors group-hover:-rotate-[18deg] group-hover:scale-110 group-hover:text-amber-300 text-white"
+                  style={{ willChange: 'transform' }}
+                  aria-hidden="true"
+                />
+                <span className="ml-1">Order</span>
+              </Link>
+
               <button
                 onClick={toggleTheme}
-                className="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
+                className="w-full flex items-center px-4 py-3 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary/10 dark:hover:bg-primary/10 transition-colors no-underline hover:no-underline"
               >
                 {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               </button>

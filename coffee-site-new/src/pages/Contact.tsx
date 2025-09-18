@@ -163,41 +163,65 @@ const Contact: React.FC = () => {
           <div className="space-y-8">
 
             {/* Contact Details */}
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Get In Touch</h2>
-              <div className="space-y-4 text-gray-600 dark:text-gray-300">
-                <div className="flex items-center gap-4">
-                  <FaPhone className="text-primary-600 dark:text-primary-400 text-xl flex-shrink-0" />
-                  <a href="tel:+15558675309" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">(555) 867-5309</a>
+            <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6">Get In Touch</h2>
+              
+              <div className="space-y-5">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 bg-primary/10 dark:bg-primary/20 text-primary-600 dark:text-primary-300 rounded-lg flex items-center justify-center">
+                    <FaPhone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">Call Us</h3>
+                    <a href="tel:+15558675309" className="text-sm text-primary-600 dark:text-primary-400 hover:underline">(555) 867-5309</a>
+                  </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <FaEnvelope className="text-primary-600 dark:text-primary-400 text-xl flex-shrink-0" />
-                  <a href="mailto:info@coffeeshop.com" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">info@unchartedgrounds.com</a>
+
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 bg-primary/10 dark:bg-primary/20 text-primary-600 dark:text-primary-300 rounded-lg flex items-center justify-center">
+                    <FaEnvelope className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">Email Us</h3>
+                    <a href="mailto:info@unchartedgrounds.com" className="text-sm text-primary-600 dark:text-primary-400 hover:underline">info@unchartedgrounds.com</a>
+                  </div>
                 </div>
               </div>
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Our Hours</h3>
-                <ul className="text-gray-600 dark:text-gray-300 space-y-1">
-                  <li className="flex justify-between"><span>Mon–Fri</span><span>7:00a – 6:00p</span></li>
-                  <li className="flex justify-between"><span>Sat</span><span>8:00a – 2:00p</span></li>
-                  <li className="flex justify-between"><span>Sun</span><span>Closed</span></li>
+
+              <hr className="my-6 border-gray-200 dark:border-gray-700" />
+
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Our Hours</h3>
+                <ul className="text-gray-600 dark:text-gray-300 space-y-1.5 text-sm sm:text-base">
+                  <li className="flex justify-between"><span>Mon–Fri</span><span className="font-medium text-gray-800 dark:text-gray-100">7:00a – 6:00p</span></li>
+                  <li className="flex justify-between"><span>Sat</span><span className="font-medium text-gray-800 dark:text-gray-100">8:00a – 2:00p</span></li>
+                  <li className="flex justify-between"><span>Sun</span><span className="font-medium text-gray-800 dark:text-gray-100">Closed</span></li>
                 </ul>
               </div>
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Amenities</h3>
-                <ul className="grid grid-cols-2 gap-y-2 gap-x-4 text-gray-600 dark:text-gray-300">
+
+              <hr className="my-6 border-gray-200 dark:border-gray-700" />
+
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Amenities</h3>
+                <ul className="grid grid-cols-2 gap-y-2 gap-x-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                   <li className="flex items-center gap-2"><FaWifi className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Free Wi-Fi</li>
-                  <li className="flex items-center gap-2"><FaWheelchair className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Wheelchair access</li>
-                  <li className="flex items-center gap-2"><FaParking className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Parking onsite</li>
-                  <li className="flex items-center gap-2"><FaPaw className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Pet friendly</li>
+                  <li className="flex items-center gap-2"><FaWheelchair className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Accessibility</li>
+                  <li className="flex items-center gap-2"><FaParking className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Parking</li>
+                  <li className="flex items-center gap-2"><FaPaw className="text-primary-600 dark:text-primary-400 flex-shrink-0" />Pet Friendly</li>
                 </ul>
               </div>
-              <div className="mt-8 flex gap-4">
-                {contactLinks.map((link, index) => (
-                  <a key={index} href={link.href} aria-label={link.label} className="text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">
-                    <link.icon className="w-6 h-6" />
-                  </a>
-                ))}
+
+              <hr className="my-6 border-gray-200 dark:border-gray-700" />
+
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Follow Us</h3>
+                <div className="flex gap-4">
+                  {contactLinks.map((link, index) => (
+                    <a key={index} href={link.href} aria-label={link.label} className="text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">
+                      <link.icon className="w-6 h-6" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
