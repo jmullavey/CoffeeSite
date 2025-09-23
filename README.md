@@ -2,6 +2,13 @@
 
 A modern, responsive coffee shop website built with React, TypeScript, and Tailwind CSS.
 
+## 🚢 Deploys
+
+[![Netlify Status](https://img.shields.io/badge/Netlify-Auto--deploys-blue?logo=netlify)](https://app.netlify.com/sites/coffeeshopjason/deploys)
+
+- Live site: https://coffeeshopjason.netlify.app
+- Deploys dashboard: https://app.netlify.com/sites/coffeeshopjason/deploys
+
 ## 🚀 Features
 
 - 🎨 Responsive design that works on all devices
